@@ -26,6 +26,7 @@ public class UserService implements UserDetailsService {
         SiteUser user = new SiteUser();
         user.setUsername(username);
         user.setEmail(email);
+        //복호화가 안되는 암호화 알고리즘(password 저장시 필수 알고리즘)
         user.setPassword(passwordEncoder.encode(password));
         this.userRepository.save(user);
         return user;

@@ -10,6 +10,8 @@ import com.example.sbb1.answer.AnswerRepository;
 import com.example.sbb1.question.Question;
 import com.example.sbb1.question.QuestionRepository;
 import com.example.sbb1.question.QuestionService;
+import com.example.sbb1.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ class SbbApplicationTests {
 
 	@Autowired
 	private QuestionService questionService;
+
+	@Autowired
+	private UserService userService;
 
 	@Test
 	@DisplayName("데이터 저장하기")
@@ -145,15 +150,15 @@ class SbbApplicationTests {
 		assertEquals("네 자동으로 생성됩니다.",answerList.get(0).getContent());
 	}
 
-	@Test
-	@DisplayName("테스트 데이터")
-	void test11() {
-		for (int i = 1; i <= 300; i++) {
-			String subject = String.format("테스트 데이터입니다:[%03d]", i);
-			String content = "내용무";
-			this.questionService.create(subject, content);
-		}
-	}
+//	@Test
+//	@DisplayName("테스트 데이터")
+//	void test11() {
+//		for (int i = 1; i <= 300; i++) {
+//			String subject = String.format("테스트 데이터입니다:[%03d]", i);
+//			String content = "내용무";
+//			this.questionService.create(subject, content);
+//		}
+//	}
 
 //	@Test
 //	@DisplayName("스트림 버전 테스트 데이터")
@@ -162,6 +167,14 @@ class SbbApplicationTests {
 //				.forEach(no -> questionService("테스트 제목입니다.%d".formatted(no),"테스트 내용입니다.%d".formatted(no)));
 //	}
 
+	//test 실행 전에 무조건 실행 되게 하는 annotation
+	//@BeforeEach
+	@Test
+	@DisplayName("회원 데이터")
+	void test013() {
+		userService.create("user13", "user13@test.com", "1234");
+		userService.create("user14", "user14@test.com", "1234");
+	}
 
 
 }

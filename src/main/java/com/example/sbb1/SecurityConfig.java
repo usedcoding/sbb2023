@@ -15,12 +15,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+//위 두 개의 annotation은 반드시 있어야 security 사용 가능
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        //localhost8080이후에 모든 요청(/**)에 대한 권한을 연다.
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login")
@@ -34,6 +36,7 @@ public class SecurityConfig {
     }
         @Bean
         PasswordEncoder passwordEncoder() {
+        //복호화가 안되는 암호화 알고리즘(password 저장시 필수 알고리즘)
             return new BCryptPasswordEncoder();
         }
 

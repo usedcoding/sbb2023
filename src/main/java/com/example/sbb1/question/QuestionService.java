@@ -56,6 +56,7 @@ public class QuestionService {
     }
 
     public Page<Question> getList(int page) {
+        //역순 정렬
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
