@@ -26,10 +26,19 @@ public class UserController {
             return "signup_form";
         }
 
+        if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
+            bindingResult.rejectValue("password2", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "signup_form";
+        }
+
+
         try {
-            userService.create(userCreateForm.getUsername(),
+            this.userService.create(userCreateForm.getUsername(),
                     userCreateForm.getEmail(), userCreateForm.getPassword1());
+            //DataIntegrityViolationException : 데이터가 무결성 제약 조건을 위반 했을 경우 error 발생
         }catch(DataIntegrityViolationException e) {
+            //DataIntegrityViolationException 안에 이미 들어가 있는 메서드
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
             return "signup_form";
