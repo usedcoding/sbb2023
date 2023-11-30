@@ -24,7 +24,7 @@ public class QuestionService {
         return this.questionRepository.findAll();
     }
 
-    public Question getquestion(Integer id) {
+    public Question getQuestion(Integer id) {
         Optional<Question> oq = this.questionRepository.findById(id);
 
         if (oq.isPresent() == false) throw new DataNotExecption("question not found");
@@ -56,11 +56,20 @@ public class QuestionService {
     }
 
     public Page<Question> getList(int page) {
-        //역순 정렬
         List<Sort.Order> sorts = new ArrayList<>();
+        //역순 정렬
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return this.questionRepository.findAll(pageable);
+    }
+
+    public void delete(Question question) {
+        this.questionRepository.delete(question);
+    }
+
+    public void vote(Question question, SiteUser siteuser) {
+        question.getVoter().add(siteuser);
+        this.questionRepository.save(question);
     }
 }
 

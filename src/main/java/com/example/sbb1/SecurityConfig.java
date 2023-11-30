@@ -17,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 //위 두 개의 annotation은 반드시 있어야 security 사용 가능
 @EnableMethodSecurity(prePostEnabled = true)
+//위 annotation이 있어야 @PreAuthorize("isAuthenticated()") annotation이 작동 한다.
 public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,7 +26,13 @@ public class SecurityConfig {
                         //localhost8080이후에 모든 요청(/**)에 대한 권한을 연다.
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                 .formLogin((formLogin) -> formLogin
+                        //GET
+                        // 시큐리티 사용자가 만든 로그인 페이지 url을 알려준다.
+                        // 없으면 기본 url은 /login
                         .loginPage("/user/login")
+                        //POST
+                        //시큐리티에게 로그인 폼 요청url을 알려준다.
+                        .loginProcessingUrl("/user/login")
                         .defaultSuccessUrl("/"))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
